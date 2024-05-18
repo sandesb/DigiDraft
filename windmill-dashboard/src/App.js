@@ -3,6 +3,7 @@ import './tailwind.css';
 import './tailwind.output.css';
 
 
+
 import { BrowserRouter, Routes, Route} from "react-router-dom";
 import Sidebar from "./component/Sidebar";
 import Layout from './component/Layout';
@@ -30,7 +31,7 @@ function App() {
         <Route path="Header" element={<Header/>}></Route>
         <Route path="Form1" element={<Form1/>}></Route>
         <Route path="Form2" element={<Form2/>}></Route>
-        <Route path="Sprints" element={<Sprint/>}></Route>
+        <Route path="Sprint" element={<Sprint/>}></Route>
 
         <Route path="Sprint/:ids" element={<Sprint/>}></Route>
         <Route path="Record" element={<Record/>}></Route>

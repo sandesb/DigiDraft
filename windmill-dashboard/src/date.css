@@ -1,0 +1,46 @@
+/* src/index.css */
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+.react-datepicker-wrapper,
+.react-datepicker__input-container,
+.react-datepicker__input-container input {
+  @apply w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white;
+}
+
+.react-datepicker-popper {
+  @apply z-50;
+}
+
+.react-datepicker {
+  @apply mt-1 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg shadow-lg;
+}
+
+.react-datepicker__header {
+  @apply bg-gray-100 dark:bg-gray-700 border-b border-gray-300 dark:border-gray-700 rounded-t-lg;
+}
+
+.react-datepicker__day-name,
+.react-datepicker__day,
+.react-datepicker__time-name {
+  @apply inline-flex w-10 h-10 justify-center items-center rounded-full hover:bg-gray-200 dark:hover:bg-gray-600;
+}
+
+.react-datepicker__day--selected,
+.react-datepicker__day--selected:hover,
+.react-datepicker__day--keyboard-selected {
+  @apply bg-indigo-600 text-white hover:bg-indigo-700;
+}
+
+.react-datepicker__day--today {
+  @apply font-bold text-indigo-600;
+}
+
+.react-datepicker__day--disabled {
+  @apply text-gray-400 dark:text-gray-600 cursor-not-allowed;
+}
+
+.react-datepicker__day--outside-month {
+  @apply text-gray-500 dark:text-gray-500;
+}
