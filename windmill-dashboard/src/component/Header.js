@@ -33,7 +33,11 @@ function Header() {
           </svg>
         </button>
         {/* Search input */}
+        <a className="ml-6 text-lg font-bold text-gray-800 dark:text-gray-200" >
+            DigiDraft
+          </a>
         <div className="flex justify-center flex-1 lg:mr-32">
+          
           <div className="relative w-full max-w-xl mr-6 focus-within:text-purple-500">
             <div className="absolute inset-y-0 flex items-center pl-2">
               <svg

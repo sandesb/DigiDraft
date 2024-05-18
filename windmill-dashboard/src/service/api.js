@@ -22,30 +22,40 @@ export const addBack = (data) => {
             });
     });
   };
-// api-service.js
 
-// Function to get the backlog data
-export const getBack = async () => {
+  export const getBack = () => {
+    return new Promise((resolve, reject) => {
+      axios.get('http://localhost:5000/users').then((res) => {
+        resolve(res.data);
+      }).catch((err) => {
+        reject(err);
+      });
+    });
+  }
+
+  // api.js
+  export const updateSprint = async (itemIds, sprintStatus) => {
     try {
-      const response = await fetch('path/to/back.json');
-      const data = await response.json();
-  
-      // Update sprint property based on selected IDs
-      const selectedIds = getSelectedIdsFromLocalStorage(); // Implement this function to get the selected IDs
-      if (selectedIds && selectedIds.length > 0) {
-        data.users.forEach(user => {
-          if (selectedIds.includes(user.id)) {
-            user.sprint = true;
-          } else {
-            user.sprint = false;
-          }
+      // Iterate over each item ID and update its sprint status
+      for (const itemId of itemIds) {
+        // Fetch the specific item data from the API
+        const response = await fetch(`http://localhost:5000/users/${itemId}`, {
+          method: 'PATCH', // Use PATCH method for updating existing items
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ sprint: sprintStatus }), // Send the new sprint status
         });
-      }
   
-      return data.users;
+        // Check if the request was successful
+        if (!response.ok) {
+          throw new Error('Failed to update sprint status for item with ID ' + itemId);
+        }
+      }
     } catch (error) {
-      console.error('Error fetching user data:', error);
-      throw error;
+      // Handle errors
+      console.error('Error updating sprint status:', error);
+      throw error; // Re-throw the error to handle it in the calling component if needed
     }
   };
   

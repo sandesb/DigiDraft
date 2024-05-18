@@ -1,24 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
 import { getBack } from '../service/api';
 
 const Sprint = () => {
   const [sprintItems, setSprintItems] = useState([]);
-  const { ids } = useParams();
-
-  useEffect(() => {
-    if (ids) {
-      const selectedIds = ids.split(',');
-      getBack()
-        .then(data => {
-          const sprintData = data.filter(item => selectedIds.includes(item.id));
-          setSprintItems(sprintData);
-        })
-        .catch(error => {
-          console.error('Error fetching sprint data:', error);
-        });
-    }
-  }, [ids]);
+ 
 
   useEffect(() => {
     // Fetch data from the API
@@ -51,13 +36,14 @@ const Sprint = () => {
             {sprintItems.map((item) => (
               <tr key={item.id} className="text-gray-700 dark:text-gray-400">
                 <td className="px-4 py-3">{item.name}</td>
-                <td className="px-4 py-3 text-sm"></td>
+                <td className="px-4 py-3 text-sm">${item.type}</td>
                 <td className="px-4 py-3 text-xs">
-                  <span>
+                  <span className={`px-2 py-1 font-semibold leading-tight ${item.difficulty === 'easy' ? 'text-green-700 bg-green-100' : 'text-orange-700 bg-orange-100'} rounded-full`}>
+                    {item.difficulty}
                   </span>
                 </td>
-                <td className="px-4 py-3 text-sm"></td>
-                <td className="px-4 py-3 text-sm"></td>
+                <td className="px-4 py-3 text-sm">{item.comment}</td>
+                <td className="px-4 py-3 text-sm">{item.date}</td>
               </tr>
             ))}
           </tbody>

@@ -14,10 +14,8 @@ const Sidebar = () => {
             {/* Sidebar content */}
                 {/* Desktop sidebar */}
       <aside className="z-20 hidden w-64 overflow-y-auto bg-white dark:bg-gray-800 md:block flex-shrink-0">
-        <div className="py-4 text-gray-500 dark:text-gray-400">
-          <a className="ml-6 text-lg font-bold text-gray-800 dark:text-gray-200" href="#">
-            Windmill
-          </a>
+        <div className="text-gray-500 dark:text-gray-400">
+
           <ul className="mt-6">
             {/* Menu items */}
             {/* Replace href with React Router Link or similar */}
@@ -32,7 +30,7 @@ const Sidebar = () => {
               </a>
             </li></Link>
            
-            <Link to="Sprint"><li className="relative px-6 py-3">
+            <Link to="Sprints"><li className="relative px-6 py-3">
               <span className="absolute inset-y-0 left-0 w-1 bg-purple-600 rounded-tr-lg rounded-br-lg" aria-hidden="true"></span>
               <a className="inline-flex items-center w-full text-sm font-semibold text-gray-800 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200 dark:text-gray-100">
                 <svg className="w-5 h-5" aria-hidden="true" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
