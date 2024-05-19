@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { getBack } from '../service/api';
+import { getAllData, getBack,updateSprintItems } from '../service/api';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 import { Link } from 'react-router-dom';
@@ -14,7 +14,9 @@ const Sprint = () => {
   const { ids } = useParams();
   const datepickerEl = document.getElementById('datepickerId');
 
-  
+  const [type, setType] = useState('');
+  const [difficulty, setDifficulty] = useState('');
+  const [comment, setComment] = useState('');
 
   useEffect(() => {
     if (ids) {
@@ -32,7 +34,7 @@ const Sprint = () => {
 
   useEffect(() => {
     // Fetch data from the API
-    getBack()
+    getAllData()
       .then(data => {
         // Filter the data to get only items with sprint set to true
         const sprintData = data.filter(item => item.sprint);
@@ -43,6 +45,44 @@ const Sprint = () => {
         console.error('Error fetching sprint data:', error);
       });
   }, []);
+
+  useEffect(() => {
+    const fetchSprintData = async () => {
+      try {
+        const data = await getBack();
+        const sprintData = data.filter(item => item.sprint === true);
+        setSprintItems(sprintData.map(item => ({
+          ...item,
+          type: '',
+          difficulty: '',
+          comment: '',
+          selectedDate: new Date(),
+        })));
+      } catch (error) {
+        console.error('Error fetching sprint data:', error);
+      }
+    };
+
+    fetchSprintData();
+  }, []);
+
+  const handleUpdate = async () => {
+    const itemUpdates = sprintItems.map(item => ({
+      id: item.id,
+      Type: item.type,
+      Difficulty: item.difficulty,
+      Comment: item.comment,
+      Date: item.selectedDate ? item.selectedDate.toISOString().split('T')[0] : null, // Check if selectedDate is defined
+    }));
+  
+    try {
+      await updateSprintItems(itemUpdates);
+      alert('Sprint items updated successfully');
+    } catch (error) {
+      alert('Failed to update sprint items');
+    }
+  };
+  
 
   
 const options = {
@@ -108,64 +148,118 @@ const options = {
             </tr>
           </thead>
           <tbody className="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
-            {sprintItems.map((item) => (
+            {sprintItems.map((item, index) => (
               <tr key={item.id} className="text-gray-700 dark:text-gray-400">
                 <td className="px-4 py-3">{item.name}</td>
                 <td className="px-4 py-3 text-sm">
-                <label className="block mt-2 text-sm"> 
-                  <select className="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray">
-                    <option>Instagram</option>
-                    <option>Whatsapp</option>
-                    <option>Snapchat</option>
-                    <option>Pinterest</option>
+                  <select
+                    value={item.type}
+                    onChange={(e) => setSprintItems(prevState => {
+                      const updatedItems = [...prevState];
+                      updatedItems[index].type = e.target.value;
+                      return updatedItems;
+                    })}
+                    className="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray"
+                  >
+                    <option value="">{item.Type}</option>
+                    <option value="Instagram">Instagram</option>
+                    <option value="Whatsapp">Whatsapp</option>
+                    <option value="Snapchat">Snapchat</option>
+                    <option value="Pinterest">Pinterest</option>
+                    <option value="Facebook">Facebook</option>
+                    <option value="Telegram">Telegram</option>
+                    <option value="Games">Games</option>
+                    <option value="Others">Others</option>
                   </select>
-              </label>
                 </td>
-
                 <td className="px-4 py-3 text-xs">
                   <div className="mt-2">
                     <label className="inline-flex items-center text-gray-600 dark:text-gray-400">
-                      <input type="radio" className="text-purple-600 form-radio focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray" name="accountType" value="personal" />
+                      <input
+                        type="radio"
+                        className="text-purple-600 form-radio focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray"
+                        name={`difficulty-${item.id}`}
+                        value="Low"
+                        checked={item.difficulty === 'Low'}
+                        onChange={(e) => setSprintItems(prevState => {
+                          const updatedItems = [...prevState];
+                          updatedItems[index].difficulty = e.target.value;
+                          return updatedItems;
+                        })}
+                      />
                       <span className="ml-2">Low</span>
                     </label>
                     <label className="inline-flex items-center ml-6 text-gray-600 dark:text-gray-400">
-                      <input type="radio" className="text-purple-600 form-radio focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray" name="accountType" value="business" />
+                      <input
+                        type="radio"
+                        className="text-purple-600 form-radio focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray"
+                        name={`difficulty-${item.id}`}
+                        value="Medium"
+                        checked={item.difficulty === 'Medium'}
+                        onChange={(e) => setSprintItems(prevState => {
+                          const updatedItems = [...prevState];
+                          updatedItems[index].difficulty = e.target.value;
+                          return updatedItems;
+                        })}
+                      />
                       <span className="ml-2">Medium</span>
                     </label>
                     <label className="inline-flex items-center ml-6 text-gray-600 dark:text-gray-400">
-                      <input type="radio" className="text-purple-600 form-radio focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray" name="accountType" value="business" />
+                      <input
+                        type="radio"
+                        className="text-purple-600 form-radio focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray"
+                        name={`difficulty-${item.id}`}
+                        value="High"
+                        checked={item.difficulty === 'High'}
+                        onChange={(e) => setSprintItems(prevState => {
+                          const updatedItems = [...prevState];
+                          updatedItems[index].difficulty = e.target.value;
+                          return updatedItems;
+                        })}
+                      />
                       <span className="ml-2">High</span>
                     </label>
                   </div>
                 </td>
                 <td className="px-4 py-3 text-sm">
-                <textarea className="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-textarea focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray" rows="3" placeholder="Enter some long form content." />
-
+                  <textarea
+                    value={item.Comment}
+                    onChange={(e) => setSprintItems(prevState => {
+                      const updatedItems = [...prevState];
+                      updatedItems[index].comment = e.target.value;
+                      return updatedItems;
+                    })}
+                    className="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-textarea focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray"
+                    rows="3"
+                    placeholder="Enter some long form content."
+                  />
                 </td>
                 <td className="px-4 py-3 text-sm">
-
-                <DatePicker
-            placeholderText="Select Date"
-            className="date"
-            selected={selectedDate}
-            onChange={(date) => setSelectedDate(date)}
-
-          />
+                  <DatePicker
+                    placeholderText={item.Date}
+                    selected={item.selectedDate}
+                    onChange={date => setSprintItems(prevState => {
+                      const updatedItems = [...prevState];
+                      updatedItems[index].selectedDate = date;
+                      return updatedItems;
+                    })}
+                  />
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
+  
+     
+  
 
       <div className="px-6 my-6">
   <div className="flex space-x-4">
-    <Link to="Form2">
-      <button className="flex items-center justify-between w-40 px-4 py-2 text-sm font-medium leading-5 text-white transition duration-150 bg-teal-600 border border-transparent rounded-lg hover:bg-teal-700 focus:outline-none focus:ring focus:ring-teal-300 active:bg-teal-800">
+      <button onClick={handleUpdate} className="flex items-center justify-between w-40 px-4 py-2 text-sm font-medium leading-5 text-white transition duration-150 bg-teal-600 border border-transparent rounded-lg hover:bg-teal-700 focus:outline-none focus:ring focus:ring-teal-300 active:bg-teal-800">
         Prioritize Task
         <span className="ml-2" aria-hidden="true">+</span>
       </button>
-    </Link>
     <Link to="Form1">
       <button className="flex items-center justify-between w-40 px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
         Create Task

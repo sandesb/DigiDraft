@@ -52,9 +52,8 @@ const Sidebar = () => {
           </ul>
 
           <div className="px-6 my-6">
-            <Link to="Form1"><button className="flex items-center justify-between w-full px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
+            <Link to="Form1"><button className="flex items-center justify-between w-20 px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
               Create Task
-              <span className="ml-2" aria-hidden="true">+</span>
             </button></Link>
           </div>
 
@@ -62,8 +61,8 @@ const Sidebar = () => {
 
           <div className="px-6 my-6">
   <Link to="Form2">
-    <button className="flex items-center justify-between w-full px-4 py-2 text-sm font-medium leading-5 text-white transition duration-150 bg-teal-600 border border-transparent rounded-lg hover:bg-teal-700 focus:outline-none focus:ring focus:ring-teal-300 active:bg-teal-800">
-      Prioritize Task
+    <button className="flex items-center justify-between w-20 px-4 py-2 text-sm font-medium leading-5 text-white transition duration-150 bg-teal-600 border border-transparent rounded-lg hover:bg-teal-700 focus:outline-none focus:ring focus:ring-teal-300 active:bg-teal-800">
+      Prioritize
       <span className="ml-2" aria-hidden="true">+</span>
     </button>
   </Link>
