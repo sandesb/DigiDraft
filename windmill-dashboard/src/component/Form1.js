@@ -101,15 +101,17 @@ function Form1() {
             placeholder="Jane Doe"
           />
         </label>
+        <button type="submit" className="flex items-center justify-between px-4 py-2 mt-4 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">Add</button>
 
 
 
-        <button type="submit" className="flex items-center justify-between px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">Ok</button>
      
         <div className="mt-4">
-  <label className="block text-sm">
-    <span className="text-gray-700 dark:text-gray-400">Upload Excel File</span>
-    <div className="relative">
+          
+  <label className="block text-sm w-20">
+    
+    <div className="relative w-10">
+      
       <input
         type="file"
         accept=".xlsx, .xls"
@@ -117,8 +119,8 @@ function Form1() {
         className="hidden" // Hide the default input
         id="fileInput" // Add an ID to reference it later
       />
-      <label htmlFor="fileInput" className="flex items-center justify-between px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg cursor-pointer active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
-        Browse
+      <label htmlFor="fileInput" className=" px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg cursor-pointer active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
+        Upload Excel File
       </label>
     </div>
   </label>

@@ -137,7 +137,7 @@ const options = {
   return (
     <div className="w-full">
       <div className="overflow-x-auto">
-        <table className="w-full whitespace-no-wrap">
+        <table className="table-fixed">
           <thead>
             <tr className="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
               <th className="px-4 py-3">Name</th>
@@ -168,6 +168,8 @@ const options = {
                     <option value="Pinterest">Pinterest</option>
                     <option value="Facebook">Facebook</option>
                     <option value="Telegram">Telegram</option>
+                    <option value="LinkedIn">LinkedIn</option>
+                    <option value="Duolingo">Duolingo</option>
                     <option value="Games">Games</option>
                     <option value="Others">Others</option>
                   </select>

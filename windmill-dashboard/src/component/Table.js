@@ -42,24 +42,30 @@ const Table = () => {
   return (
     <div className="w-full">
       <div className="overflow-x-auto">
-        <table className="w-full whitespace-no-wrap">
+        <table className="w-full table-fixed">
           <thead>
-            <tr className="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
-              <th className="px-4 py-3">Select</th>
+            <tr className="text-xs  table-fixed font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
+              <th className="px-2 py-3 w-2">Select</th>
               <th className="px-4 py-3">Name</th>
+              <th className="px-4 py-3">Sprint</th>
+
             </tr>
           </thead>
           <tbody className="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
-            {nonTickedItems.map((item) => (
+            {nonTickedItems.map((item,index) => (
               <tr key={item.id} className="text-gray-700 dark:text-gray-400">
-                <td className="px-4 py-3">
+                             <td className="px-4 py-3 text-sm">{index + 1}</td>
+
+         
+                <td className="px-4 py-3">{item.name}</td>
+
+                <td className="px-4 py-3 w-3">
                   <input
                     type="checkbox"
                     checked={selectedItemIds.includes(item.id)}
                     onChange={() => handleCheckboxChange(item.id)}
                   />
                 </td>
-                <td className="px-4 py-3">{item.name}</td>
               </tr>
             ))}
           </tbody>

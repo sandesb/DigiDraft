@@ -15,6 +15,19 @@ module.exports = {
         },
       },
     }),
+    content: [
+      ...
+      "./node_modules/tailwind-datepicker-react/dist/**/*.js", // <--- Add this line
+  ],
+  plugins: {
+    tailwindcss: {},
+    autoprefixer: {},
+  },
+  purge: ['./src/**/*.{js,jsx,ts,tsx}', './public/index.html'],
+  darkMode: 'class', // or 'media' or 'class'
+  theme: {
+    extend: {},
+  },
     colors: {
       transparent: 'transparent',
       white: '#ffffff',

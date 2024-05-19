@@ -14,6 +14,7 @@ import Form2 from './component/Form2';
 import Table from './component/Table';
 import Sprint from './component/Sprint';
 import Record from './component/Record';
+import Sprints from './component/Sprints';
 
 
 function App() {
@@ -31,6 +32,7 @@ function App() {
         <Route path="Header" element={<Header/>}></Route>
         <Route path="Form1" element={<Form1/>}></Route>
         <Route path="Form2" element={<Form2/>}></Route>
+        <Route path="Sprints" element={<Sprints/>}></Route>
         <Route path="Sprint" element={<Sprint/>}></Route>
 
         <Route path="Sprint/:ids" element={<Sprint/>}></Route>
