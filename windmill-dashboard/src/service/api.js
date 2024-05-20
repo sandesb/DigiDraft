@@ -62,10 +62,10 @@ export const addBack = (data) => {
   export const updateSprintItems = async (itemUpdates) => {
     try {
       for (const itemUpdate of itemUpdates) {
-        const { id, Type, Difficulty, Comment, Date } = itemUpdate;
+        const { id, Type, Difficulty, Comment, Date, progressThumbnail, progressEdited } = itemUpdate;
         const response = await fetch(`http://localhost:5000/users/${id}`, {
           method: 'PATCH', // Use PATCH method
-          body: JSON.stringify({ Type, Difficulty, Comment, Date }), // Send only the updated fields
+          body: JSON.stringify({ Type, Difficulty, Comment, Date, progressThumbnail, progressEdited}), // Send only the updated fields
         });
         if (!response.ok) {
           throw new Error(`Failed to update item with ID ${id}`);
