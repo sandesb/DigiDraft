@@ -16,12 +16,17 @@ const Sprint = () => {
   const [comment, setComment] = useState('');
   const [progress, setProgress] = useState('');
 
-  useEffect(() => {
+useEffect(() => {
     if (ids) {
       const selectedIds = ids.split(',');
       getBack()
         .then(data => {
           const sprintData = data.filter(item => selectedIds.includes(item.id));
+          // Initialize progress fields if they don't exist
+          sprintData.forEach(item => {
+            item.progressThumbnail = item.progressThumbnail || false;
+            item.progressEdited = item.progressEdited || false;
+          });
           setSprintItems(sprintData);
         })
         .catch(error => {
@@ -34,26 +39,31 @@ const Sprint = () => {
     getAllData()
       .then(data => {
         const sprintData = data.filter(item => item.sprint);
+        // Initialize progress fields if they don't exist
+        sprintData.forEach(item => {
+          item.progressThumbnail = item.progressThumbnail || false;
+          item.progressEdited = item.progressEdited || false;
+        });
         setSprintItems(sprintData);
       })
       .catch(error => {
         console.error('Error fetching sprint data:', error);
       });
   }, []);
-
   const handleUpdate = async () => {
-    const itemUpdates = sprintItems.map(item => ({
-      id: item.id,
-      Type: item.type,
-      Difficulty: item.difficulty,
-      Comment: item.comment,
-      Date: item.selectedDate ? item.selectedDate.toISOString().split('T')[0] : null,
-      progressThumbnail: item.progressThumbnail, // New progress field for Thumbnail
-      progressEdited: item.progressEdited // New progress field for Edited
-    }));
-
     try {
+      const itemUpdates = sprintItems.map(item => ({
+        id: item.id,
+        Type: item.Type,
+        Difficulty: item.Difficulty,
+        Comment: item.Comment,
+        Date: item.selectedDate ? item.selectedDate.toISOString().split('T')[0] : null,
+        progressThumbnail: item.progressThumbnail,
+        progressEdited: item.progressEdited,
+      }));
+  
       await updateSprintItems(itemUpdates);
+  
       alert('Sprint items updated successfully');
     } catch (error) {
       console.error('Error updating sprint items:', error);
@@ -112,7 +122,7 @@ const Sprint = () => {
   const handleCheckboxChange = (index, detailType) => {
     setSprintItems(prevState => {
       const updatedItems = [...prevState];
-      updatedItems[index][detailType] = !updatedItems[index][detailType];
+      updatedItems[index] = { ...updatedItems[index], [detailType]: !updatedItems[index][detailType] };
       return updatedItems;
     });
   };
@@ -241,7 +251,7 @@ const Sprint = () => {
                         type="checkbox"
                         className="form-checkbox"
                         checked={item.progressThumbnail || false}
-                        onChange={(e) => handleCheckboxChange(index, 'progressThumbnail')}
+                        onChange={() => handleCheckboxChange(index, 'progressThumbnail')}
                       />
                       <span className="ml-2">Thumbnail</span>
                     </label>
@@ -250,7 +260,7 @@ const Sprint = () => {
                         type="checkbox"
                         className="form-checkbox"
                         checked={item.progressEdited || false}
-                        onChange={(e) => handleCheckboxChange(index, 'progressEdited')}
+                        onChange={() => handleCheckboxChange(index, 'progressEdited')}
                       />
                       <span className="ml-2">Edited</span>
                     </label>
