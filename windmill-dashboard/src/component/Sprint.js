@@ -152,10 +152,10 @@ useEffect(() => {
                       <p className="font-semibold">{item.name}</p>
                       <p className="text-xs text-gray-600 dark:text-gray-400">
                       <select
-                    value={item.type}
+                    value={item.Type}
                     onChange={(e) => setSprintItems(prevState => {
                       const updatedItems = [...prevState];
-                      updatedItems[index].type = e.target.value;
+                      updatedItems[index].Type = e.target.value;
                       return updatedItems;
                     })}
                     className="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray"
@@ -190,7 +190,7 @@ useEffect(() => {
                         checked={item.Difficulty === 'Low'}
                         onChange={(e) => setSprintItems(prevState => {
                           const updatedItems = [...prevState];
-                          updatedItems[index].difficulty = e.target.value;
+                          updatedItems[index].Difficulty = e.target.value;
                           return updatedItems;
                         })}
                       />
