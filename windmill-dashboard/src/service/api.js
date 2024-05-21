@@ -80,6 +80,55 @@ export const addBack = (data) => {
       throw error;
     }
   };
+
+  // api.js
+// api.js
+// api.js
+// api.js
+// api.js
+export const updateUploadStatus = async (itemUpdates) => {
+  try {
+    for (const itemUpdate of itemUpdates) {
+      const { id, Upload } = itemUpdate;
+      const response = await fetch(`http://localhost:5000/users/${id}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ Upload }), // Send only the Upload field
+      });
+      if (!response.ok) {
+        throw new Error(`Failed to update upload status for item with ID ${id}`);
+      }
+      console.log(`Updated item with ID ${id} to set Upload=${Upload}`); // Logging for debugging
+    }
+    return true; // Return true if all updates were successful
+  } catch (error) {
+    console.error('Error updating upload status:', error);
+    throw error;
+  }
+};
+
+// In api.js or a similar file
+
+export const getUploadedDetails = async () => {
+  try {
+    const response = await fetch('http://localhost:5000/users');
+    if (!response.ok) {
+      throw new Error('Failed to fetch uploaded details');
+    }
+    const data = await response.json();
+    return data.filter(item => item.Upload === true);
+  } catch (error) {
+    console.error('Error fetching uploaded details:', error);
+    throw error;
+  }
+};
+
+
+
+
+
   
 
 export const getAllData = async () => {

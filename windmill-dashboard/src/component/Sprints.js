@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { getAllData } from '../service/api'; // Adjust the import path as needed
+import { getAllData, updateUploadStatus  } from '../service/api'; // Adjust the import path as needed
+import { useNavigate } from 'react-router';
+
 
 const typeToImageUrl = {
   Facebook: 'https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg',
@@ -33,30 +35,45 @@ const Sprints = () => {
   const [sprintItems, setSprintItems] = useState([]);
 
   useEffect(() => {
-    // Fetch data from the API
     getAllData()
       .then(data => {
-        // Filter the data to get only items with sprint set to true
-        const sprintData = data.filter(item => item.sprint);
-        // Set the sprint items state
+        const sprintData = data.filter(item => item.sprint && !item.Upload); // Ensure only items without Upload=true are shown
         setSprintItems(sprintData);
       })
       .catch(error => {
         console.error('Error fetching sprint data:', error);
       });
   }, []);
+  
+  const navigate = useNavigate();
+
+  const handleUpload = async () => {
+    const itemUpdates = sprintItems.map(item => ({
+      id: item.id,
+      Upload: true // Set Upload to true
+    }));
+    try {
+      await updateUploadStatus(itemUpdates); // Update the Upload status
+      setSprintItems(prevItems => prevItems.filter(item => !item.sprint)); // Clear the sprint items from the state
+      navigate('/Record', { state: { uploadedItems: sprintItems } }); // Navigate to the Record component with state
+    } catch (error) {
+      console.error('Error uploading sprint items:', error);
+      alert('Failed to upload sprint items');
+    }
+  };
 
   return (
     <div className="w-full">
       <div className="wid overflow-x-auto">
-        <table className="w-full whitespace-no-wrap">
+        <table className="w-full ">
           <thead>
             <tr className="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
             <th className="px-4 py-3">SN</th>
-              
               <th className="px-4 py-3">Name</th>
               <th className="px-4 py-3">Difficulty</th>
               <th className="px-4 py-3">Comment</th>
+              <th className="px-4 py-3">Progress</th>
+
             </tr>
           </thead>
           <tbody className="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
@@ -86,11 +103,38 @@ const Sprints = () => {
                   </span>
                 </td>
                 <td className="px-4 py-3 text-sm">{item.Comment}</td>
+                <td className="px-4 py-3 text-sm">{item.progressThumnbnail}
+                
+                <label className="inline-flex items-center mt-3">
+                      <input
+                        type="checkbox"
+                        className="form-checkbox"
+                        checked={item.progressThumbnail || false}
+                      />
+                      <span className="ml-2">Thumbnail</span>
+                    </label>
+                    <label className="inline-flex items-center mt-3">
+                      <input
+                        type="checkbox"
+                        className="form-checkbox"
+                        checked={item.progressEdited || false}
+                      />
+                      <span className="ml-2">Edited</span>
+                    </label>
+
+                </td>
+
               </tr>
             ))}
           </tbody>
         </table>
       </div>
+      <button
+                onClick={handleUpload}
+          className="px-4 py-2 mt-4 text-white bg-blue-600 rounded-md hover:bg-blue-700"
+        >
+          Uploaded
+        </button>
     </div>
   );
 };

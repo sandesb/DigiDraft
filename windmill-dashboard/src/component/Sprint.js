@@ -126,6 +126,10 @@ useEffect(() => {
       return updatedItems;
     });
   };
+
+  const hey = () =>{
+    <p>nice</p>
+  }
   return (
     <div className="w-full">
       <div className="overflow-x-auto">
@@ -134,7 +138,6 @@ useEffect(() => {
             <tr className="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
               <th className="px-4 py-3">SN</th>
               <th className="px-4 py-3">Name</th>
-              <th className="px-4 py-3">Type</th>
               <th className="px-4 py-3">Difficulty</th>
               <th className="px-4 py-3">Comment</th>
               <th className="px-4 py-3">Date</th>
@@ -145,9 +148,10 @@ useEffect(() => {
             {sprintItems.map((item, index) => (
               <tr key={item.id} className="text-gray-700 dark:text-gray-400">
                 <td className="px-4 py-3 text-sm">{index + 1}</td>
-                <td className="px-4 py-3">{item.name}</td>
-                <td className="px-4 py-3 text-sm">
-                  <select
+                <td className="px-4 py-3">       <div>
+                      <p className="font-semibold">{item.name}</p>
+                      <p className="text-xs text-gray-600 dark:text-gray-400">
+                      <select
                     value={item.type}
                     onChange={(e) => setSprintItems(prevState => {
                       const updatedItems = [...prevState];
@@ -168,16 +172,22 @@ useEffect(() => {
                     <option value="Games">Games</option>
                     <option value="Others">Others</option>
                   </select>
+                      
+                      </p>
+                    </div>
+                
                 </td>
+                
+     
                 <td className="px-4 py-3 text-xs">
                   <div className="mt-2">
-                    <label className="inline-flex items-center text-gray-600 dark:text-gray-400">
+                    <label className="flex items-center text-gray-600 dark:text-gray-400">
                       <input
                         type="radio"
-                        className="text-purple-600 form-radio focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray"
+                        className="text-orange-500 form-radio focus:border-orange-400 focus:outline-none focus:shadow-outline-orange dark:focus:shadow-outline-gray"
                         name={`difficulty-${item.id}`}
                         value="Low"
-                        checked={item.difficulty === 'Low'}
+                        checked={item.Difficulty === 'Low'}
                         onChange={(e) => setSprintItems(prevState => {
                           const updatedItems = [...prevState];
                           updatedItems[index].difficulty = e.target.value;
@@ -186,13 +196,13 @@ useEffect(() => {
                       />
                       <span className="ml-2">Low</span>
                     </label>
-                    <label className="inline-flex items-center ml-6 text-gray-600 dark:text-gray-400">
+                    <label className="flex items-center text-gray-600 dark:text-gray-400">
                       <input
                         type="radio"
-                        className="text-purple-600 form-radio focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray"
+                        className="text-blue-600 form-radio focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray"
                         name={`difficulty-${item.id}`}
                         value="Medium"
-                        checked={item.difficulty === 'Medium'}
+                        checked={item.Difficulty === 'Medium'}
                         onChange={(e) => setSprintItems(prevState => {
                           const updatedItems = [...prevState];
                           updatedItems[index].difficulty = e.target.value;
@@ -201,13 +211,14 @@ useEffect(() => {
                       />
                       <span className="ml-2">Medium</span>
                     </label>
-                    <label className="inline-flex items-center ml-6 text-gray-600 dark:text-gray-400">
+                    <label className="flex items-center text-gray-600 dark:text-gray-400">
                       <input
                         type="radio"
-                        className="text-purple-600 form-radio focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray"
+                        
+                        className="text-red-600 form-radio focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray"
                         name={`difficulty-${item.id}`}
                         value="High"
-                        checked={item.difficulty === 'High'}
+                        checked={item.Difficulty === 'High'}
                         onChange={(e) => setSprintItems(prevState => {
                           const updatedItems = [...prevState];
                           updatedItems[index].difficulty = e.target.value;
@@ -233,7 +244,7 @@ useEffect(() => {
                 </td>
                 <td className="px-4 py-3 text-sm">
                   <DatePicker
-                    placeholderText={item.Date}
+                   placeholderText={item.Date ? item.Date : "Add Date 📅"}
                     selected={item.selectedDate}
                     onChange={date => setSprintItems(prevState => {
                       const updatedItems = [...prevState];
